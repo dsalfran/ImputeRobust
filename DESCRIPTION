@@ -5,7 +5,7 @@ Authors@R: c(person("Daniel", "Salfran", email = "danielsalfran@gmail.com", role
              person("Martin", "Spiess", email = "martin.spiess@uni-hamburg.de", role = c("aut", "cph", "ths")))
 Description: Provides an extension to the MICE package with an extra method based on GAMLSS.
 Depends:
-    R (>= 3.3.2),
+    R (>= 3.2.0),
     gamlss,
     mice,
     purrr,
