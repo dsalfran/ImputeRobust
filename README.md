@@ -3,8 +3,8 @@ ImputeRobust: Multiple Imputation with GAMLSS
 
 The `ImputeRobust` package adds to [https://cran.r-project.org/web/packages/mice/index.html](MICE) an imputation method based on generalized additive models for location, scale, and shape introduced by de Jong (2012), de Jong, van Buuren and Spiess (2016). It has been tested mostly with continous variables, count, and binary data.
 
-Instalation
------------
+Installation
+------------
 
 The latest version can be installed from GitHub as follows:
 
