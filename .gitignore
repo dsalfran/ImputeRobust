@@ -1,7 +1,6 @@
 .Rproj.user
 .Rhistory
 .RData
-NAMESPACE
 archive
 .Rbuildignore
 ImputeRobust.Rproj
