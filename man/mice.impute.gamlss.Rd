@@ -94,6 +94,9 @@ imputed.sets <- mice(sample.data,
                      visitSequence = "monotone",
                      maxit = 1, seed = 97123)
 
+fit <- with(imputed.sets, lm(y ~ X.1 + X.2 + X.3 + X.4))
+summary(pool(fit))
+
 stripplot(imputed.sets)
 
 }
