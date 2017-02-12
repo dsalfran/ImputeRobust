@@ -85,18 +85,16 @@ Imputation of \code{y} using generalized additive models
 }}
 \examples{
 
-\dontrun{
-\donttest{
- meth = c("gamlss", "gamlss", "gamlss", "gamlss", "gamlss",
-          "gamlss", "gamlss", "gamlss", "gamlss", "gamlss",
-          "gamlssBI")
 
- imputed.tbc <- mice(tbc, method = meth,
-                     lin.terms = c("first", "typ", "sex", "ao"))
+require(lattice)
+# Create the imputed data sets
+imputed.sets <- mice(sample.data,
+                     method = c("gamlss", "gamlss",
+                                "gamlss", "gamlssBI", "gamlss"),
+                     visitSequence = "monotone",
+                     maxit = 1, seed = 97123)
 
- summary(imputed.tbc)
-}
-}
+stripplot(imputed.sets)
 
 }
 \author{
