@@ -10,7 +10,8 @@ The latest version can be installed from GitHub as follows:
 
 ``` r
 install.packages("devtools")
-devtools::install_github(repo = "dsalfran/ImputeRobust")
+devtools::install_git(url = "https://github.com/dsalfran/ImputeRobust", 
+                      branch = "master")
 ```
 
 Main functions
@@ -40,6 +41,45 @@ The main functions in the `ImputeRobust` package are:
 </tr>
 </tbody>
 </table>
+
+Examples
+--------
+
+The package is intended to be use with mice, adding new methods based on GAMLSS. For example, let's say we have a data sets with missing values:
+
+``` r
+# First lines of the data set
+head(sample.data)
+#>           X.1 X.2       X.3 X.4         y
+#> 1 -0.89662664  NA        NA  NA  6.943309
+#> 2 -1.75990198  NA        NA   1  5.272678
+#> 3  0.60351069   4 -2.330010   0  3.669100
+#> 4 -0.05911172   2 -1.010365   0 -2.995331
+#> 5  0.95021728   4        NA   1  5.736138
+#> 6  1.61066030  NA        NA   1 18.415576
+```
+
+``` r
+# Missing pattern
+md.pattern(sample.data)
+#>     X.1 y X.4 X.2 X.3    
+#> 125   1 1   1   1   1   0
+#>  39   1 1   1   1   0   1
+#>  64   1 1   1   0   0   2
+#>  22   1 1   0   0   0   3
+#>       0 0  22  86 125 233
+```
+
+``` r
+# Create the imputed data sets
+imputed.sets <- mice(sample.data,
+                     method = c("gamlss", "gamlss",
+                                "gamlss", "gamlssBI", "gamlss"),
+                     visitSequence = "monotone",
+                     maxit = 1, seed = 97123)
+```
+
+![](sample.png)
 
 References
 ----------

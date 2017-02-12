@@ -27,7 +27,8 @@ The latest version can be installed from GitHub as follows:
 
 ```{r eval = FALSE}
 install.packages("devtools")
-devtools::install_github(repo = "dsalfran/ImputeRobust")
+devtools::install_git(url = "https://github.com/dsalfran/ImputeRobust", 
+                      branch = "master")
 ```
 
 ## Main functions
@@ -38,6 +39,37 @@ The main functions in the `ImputeRobust` package are:
 |-------------------------|---------------------------------------------------------------------- |
 |`mice.impute.gamlss()`   | Impute data using GAMLSS                                              |
 |`mice.impute.gamlssBI()` | Same as `mice.impute.gamlss()` but specially tailored for binary data |
+
+## Examples
+
+The package is intended to be use with mice, adding new methods based
+on GAMLSS. For example, let's say we have a data sets with missing values:
+
+```{r, echo = FALSE}
+load('data/sample.rda')
+suppressMessages(library(ImputeRobust))
+```
+
+```{r}
+# First lines of the data set
+head(sample.data)
+```
+
+```{r}
+# Missing pattern
+md.pattern(sample.data)
+```
+
+```{r, eval = FALSE}
+# Create the imputed data sets
+imputed.sets <- mice(sample.data,
+                     method = c("gamlss", "gamlss",
+                                "gamlss", "gamlssBI", "gamlss"),
+                     visitSequence = "monotone",
+                     maxit = 1, seed = 97123)
+```
+
+![](sample.png)
 
 ## References
 
