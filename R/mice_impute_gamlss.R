@@ -79,8 +79,9 @@
 #'
 #' @export
 mice.impute.gamlss <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
+  Call <- match.call(expand.dots = TRUE)
 
-  if (is.null(fitted.gam)) fitted.gam <- fit.gamlss(y, ry, x, ...)
+  if (is.null(fitted.gam)) fitted.gam <- do.call(fit.gamlss, as.list(Call)[-1])
 
   imputed.values <- fitted.gam()
   # Repeat the bootstrap step if there is a problem with the fitting
@@ -111,11 +112,11 @@ mice.impute.gamlss <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
 #' @describeIn mice.impute.gamlss mice.impute.gamlssBI
 #' @export
 mice.impute.gamlssBI <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
+  Call <- match.call(expand.dots = TRUE)
+  Call[["family"]] <- BI
+  Call[["n.ind.par"]] <- 1
 
-  if (is.null(fitted.gam)) fitted.gam <- fit.gamlss(y, ry, x,
-                                                    family = BI,
-                                                    n.ind.par = 1,
-                                                    ...)
+  if (is.null(fitted.gam)) fitted.gam <- do.call(fit.gamlss, as.list(Call)[-1])
 
   imputed.values <- fitted.gam()
   # Repeat the bootstrap step if there is a problem with the fitting
