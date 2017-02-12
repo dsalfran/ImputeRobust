@@ -69,6 +69,8 @@ imputed.sets <- mice(sample.data,
                      maxit = 1, seed = 97123)
 ```
 
+In the following plot the red circles represent the imputed values and
+the blue circles the observed data.
 ![](sample.png)
 
 ## References
