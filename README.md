@@ -17,30 +17,17 @@ devtools::install_git(url = "https://github.com/dsalfran/ImputeRobust",
 Main functions
 --------------
 
-The main functions in the `ImputeRobust` package are:
+The main function in the `ImputeRobust` package is `mice.impute.gamlss()` which assumes model the response distribution with a Normal distribution. All other functions are variants of the main function with a different fixed response distribution.
 
-<table>
-<colgroup>
-<col width="26%" />
-<col width="73%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Function Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>mice.impute.gamlss()</code></td>
-<td>Impute data using GAMLSS</td>
-</tr>
-<tr class="even">
-<td><code>mice.impute.gamlssBI()</code></td>
-<td>Same as <code>mice.impute.gamlss()</code> but specially tailored for binary data</td>
-</tr>
-</tbody>
-</table>
+| Function Name              | Response distribution  |
+|----------------------------|------------------------|
+| `mice.impute.gamlss()`     | Normal                 |
+| `mice.impute.gamlssBI()`   | Binomial               |
+| `mice.impute.gamlssJSU()`  | Johnson's SU           |
+| `mice.impute.gamlssPO()`   | Poisson                |
+| `mice.impute.gamlssTF()`   | t-distribution         |
+| `mice.impute.gamlssZIBI()` | Zero inflated binomial |
+| `mice.impute.gamlssZIP()`  | Zero inflated Poisson  |
 
 Examples
 --------
@@ -73,13 +60,13 @@ md.pattern(sample.data)
 ``` r
 # Create the imputed data sets
 imputed.sets <- mice(sample.data,
-                     method = c("gamlss", "gamlss",
-                                "gamlss", "gamlssBI", "gamlss"),
+                     method = c("gamlss", "gamlssPO",
+                                "gamlssJSU", "gamlssBI", "gamlss"),
                      visitSequence = "monotone",
                      maxit = 1, seed = 97123)
 ```
 
-The following plot allows to look into the imputation process, the red circles represent the imputed values and the blue circles the observed data. ![](sample.png)
+In the following plot the red circles represent the imputed values and the blue circles the observed data. ![](sample.png)
 
 References
 ----------

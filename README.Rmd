@@ -33,12 +33,20 @@ devtools::install_git(url = "https://github.com/dsalfran/ImputeRobust",
 
 ## Main functions
 
-The main functions in the `ImputeRobust` package are:
+The main function in the `ImputeRobust` package is
+`mice.impute.gamlss()` which assumes model the response distribution
+with a Normal distribution. All other functions are variants of the
+main function with a different fixed response distribution.
 
-|Function Name            | Description                                                           |
-|-------------------------|---------------------------------------------------------------------- |
-|`mice.impute.gamlss()`   | Impute data using GAMLSS                                              |
-|`mice.impute.gamlssBI()` | Same as `mice.impute.gamlss()` but specially tailored for binary data |
+|Function Name             | Response distribution                                                 |
+|--------------------------|---------------------------------------------------------------------- |
+|`mice.impute.gamlss()`    | Normal |
+|`mice.impute.gamlssBI()`  | Binomial |
+|`mice.impute.gamlssJSU()` | Johnson's SU |
+|`mice.impute.gamlssPO()`  | Poisson |
+|`mice.impute.gamlssTF()`  | t-distribution |
+|`mice.impute.gamlssZIBI()`| Zero inflated binomial |
+|`mice.impute.gamlssZIP()` | Zero inflated Poisson |
 
 ## Examples
 
@@ -63,8 +71,8 @@ md.pattern(sample.data)
 ```{r, eval = FALSE}
 # Create the imputed data sets
 imputed.sets <- mice(sample.data,
-                     method = c("gamlss", "gamlss",
-                                "gamlss", "gamlssBI", "gamlss"),
+                     method = c("gamlss", "gamlssPO",
+                                "gamlssJSU", "gamlssBI", "gamlss"),
                      visitSequence = "monotone",
                      maxit = 1, seed = 97123)
 ```
