@@ -3,13 +3,32 @@
 \name{mice.impute.gamlss}
 \alias{fit.gamlss}
 \alias{mice.impute.gamlss}
+\alias{mice.impute.gamlssBE}
 \alias{mice.impute.gamlssBI}
+\alias{mice.impute.gamlssJSU}
+\alias{mice.impute.gamlssPO}
+\alias{mice.impute.gamlssTF}
+\alias{mice.impute.gamlssZIBI}
+\alias{mice.impute.gamlssZIP}
 \title{Multiple Imputation with Generalized Additive Models for Location,
 Scale, and Shape}
 \usage{
-mice.impute.gamlss(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
+mice.impute.gamlss(y, ry, x, family = NO, n.ind.par = 2,
+  fitted.gam = NULL, EV = TRUE, ...)
 
 mice.impute.gamlssBI(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
+
+mice.impute.gamlssJSU(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
+
+mice.impute.gamlssPO(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
+
+mice.impute.gamlssTF(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
+
+mice.impute.gamlssZIBI(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
+
+mice.impute.gamlssZIP(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
+
+mice.impute.gamlssBE(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
 
 fit.gamlss(y, ry, x, family = NO, n.ind.par = 2, gd.tol = Inf,
   lin.terms = NULL, forceNormal = FALSE, c.crit = 0.001, n.cyc = 20,
@@ -24,6 +43,13 @@ fit.gamlss(y, ry, x, family = NO, n.ind.par = 2, gd.tol = Inf,
 \item{x}{Design matrix with 'length(y)' rows and 'p' columns
 containing complete covariates.}
 
+\item{family}{Distribution family to be used by GAMLSS. It defaults
+to NO but a range of families can be defined by calling the
+corresponding "gamlssFAMILY" method.}
+
+\item{n.ind.par}{Number of parameters from the distribution family
+to be individually estimated.}
+
 \item{fitted.gam}{A predefined bootstrap gamlss method returned by
 \code{fit.gamlss}. Mice by default refits the model with each
 imputation. The parameter is here for a future faster modified
@@ -32,11 +58,6 @@ mice function.}
 \item{EV}{Logical value to determine whether to correct or not
 extreme imputed values. This can arise due to too much
 flexibility of the gamlss model.}
-
-\item{family}{Distribution family to be used by GAMLSS.}
-
-\item{n.ind.par}{Number of parameters from the distribution family
-to be individually estimated.}
 
 \item{gd.tol}{Global deviance tolerance level of GAMLSS.}
 
@@ -80,6 +101,18 @@ Imputation of \code{y} using generalized additive models
 \section{Functions}{
 \itemize{
 \item \code{mice.impute.gamlssBI}: mice.impute.gamlssBI
+
+\item \code{mice.impute.gamlssJSU}: mice.impute.gamlssJSU
+
+\item \code{mice.impute.gamlssPO}: mice.impute.gamlssPO
+
+\item \code{mice.impute.gamlssTF}: mice.impute.gamlssTF
+
+\item \code{mice.impute.gamlssZIBI}: mice.impute.gamlssZIBI
+
+\item \code{mice.impute.gamlssZIP}: mice.impute.gamlssZIP
+
+\item \code{mice.impute.gamlssBE}: mice.impute.gamlssBE
 
 \item \code{fit.gamlss}: fit.gamlss
 }}
