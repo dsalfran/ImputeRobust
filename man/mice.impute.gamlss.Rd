@@ -3,7 +3,6 @@
 \name{mice.impute.gamlss}
 \alias{fit.gamlss}
 \alias{mice.impute.gamlss}
-\alias{mice.impute.gamlssBE}
 \alias{mice.impute.gamlssBI}
 \alias{mice.impute.gamlssJSU}
 \alias{mice.impute.gamlssPO}
@@ -27,8 +26,6 @@ mice.impute.gamlssTF(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
 mice.impute.gamlssZIBI(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
 
 mice.impute.gamlssZIP(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
-
-mice.impute.gamlssBE(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
 
 fit.gamlss(y, ry, x, family = NO, n.ind.par = 2, gd.tol = Inf,
   lin.terms = NULL, forceNormal = FALSE, c.crit = 0.001, n.cyc = 20,
@@ -111,8 +108,6 @@ Imputation of \code{y} using generalized additive models
 \item \code{mice.impute.gamlssZIBI}: mice.impute.gamlssZIBI
 
 \item \code{mice.impute.gamlssZIP}: mice.impute.gamlssZIP
-
-\item \code{mice.impute.gamlssBE}: mice.impute.gamlssBE
 
 \item \code{fit.gamlss}: fit.gamlss
 }}

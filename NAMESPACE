@@ -2,7 +2,6 @@
 
 export(fit.gamlss)
 export(mice.impute.gamlss)
-export(mice.impute.gamlssBE)
 export(mice.impute.gamlssBI)
 export(mice.impute.gamlssJSU)
 export(mice.impute.gamlssPO)

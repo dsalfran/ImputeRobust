@@ -168,15 +168,6 @@ mice.impute.gamlssZIP <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   return(do.call(mice.impute.gamlss, as.list(Call)[-1]))
 }
 
-#' @describeIn mice.impute.gamlss mice.impute.gamlssBE
-#' @export
-mice.impute.gamlssBE <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
-  Call <- match.call(expand.dots = TRUE)
-  Call[["family"]] <- BE
-
-  return(do.call(mice.impute.gamlss, as.list(Call)[-1]))
-}
-
 #' @describeIn mice.impute.gamlss fit.gamlss
 #' @export
 fit.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
