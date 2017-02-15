@@ -17,7 +17,7 @@ devtools::install_git(url = "https://github.com/dsalfran/ImputeRobust",
 Main functions
 --------------
 
-The main function in the `ImputeRobust` package is `mice.impute.gamlss()` which assumes model the response distribution with a Normal distribution. All other functions are variants of the main function with a different fixed response distribution.
+The main function in the `ImputeRobust` package is `mice.impute.gamlss()` which model the response distribution with a Normal distribution. All other functions are variants of the main function with a different fixed response distribution.
 
 | Function Name              | Response distribution  |
 |----------------------------|------------------------|
@@ -32,7 +32,7 @@ The main function in the `ImputeRobust` package is `mice.impute.gamlss()` which 
 Examples
 --------
 
-The package is intended to be use with mice, adding new methods based on GAMLSS. For example, let's say we have a data sets with missing values:
+The package is intended to be used with mice, adding new methods based on GAMLSS. For example, let's say we have a data sets with missing values:
 
 ``` r
 # First lines of the data set
