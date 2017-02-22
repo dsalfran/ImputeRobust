@@ -37,7 +37,7 @@ ImpGamlssBootstrap <- function(incomplete.data, fit, R, ...) {
   }, error = function(e) {
     function(model) {
       do.call(rep,
-              args=list(NA, nrow(subset(incomplete.data,
-                                        !select.available.cases))))}}
+              args=list(NA, nrow(subset(incomplete.data, !R))))}
+  }
   )
 }
