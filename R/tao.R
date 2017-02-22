@@ -19,11 +19,13 @@
 #' @examples
 #'
 #' \dontrun{
+#' \donttest{
 #' require(lattice)
 #'
 #' imputed.sets <- mice(tao, method = "gamlss")
 #'
 #' stripplot(imputed.sets)
+#' }
 #' }
 #'
 NULL

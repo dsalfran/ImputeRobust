@@ -26,7 +26,7 @@
 #'
 #' @examples
 #'
-#' 
+#' \donttest{
 #' require(lattice)
 #' # Create the imputed data sets
 #' imputed.sets <- mice(sample.data,
@@ -39,5 +39,6 @@
 #' summary(pool(fit))
 #' 
 #' stripplot(imputed.sets)
+#' }
 #' 
 NULL

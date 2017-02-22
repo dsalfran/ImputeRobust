@@ -66,7 +66,7 @@
 #'
 #' @examples
 #'
-#'
+#' \donttest{
 #' require(lattice)
 #' # Create the imputed data sets
 #' imputed.sets <- mice(sample.data,
@@ -79,6 +79,7 @@
 #' summary(pool(fit))
 #'
 #' stripplot(imputed.sets)
+#' }
 #'
 #' @export
 mice.impute.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,

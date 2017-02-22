@@ -113,7 +113,7 @@ Imputation of \code{y} using generalized additive models
 }}
 \examples{
 
-
+\donttest{
 require(lattice)
 # Create the imputed data sets
 imputed.sets <- mice(sample.data,
@@ -126,6 +126,7 @@ fit <- with(imputed.sets, lm(y ~ X.1 + X.2 + X.3 + X.4))
 summary(pool(fit))
 
 stripplot(imputed.sets)
+}
 
 }
 \author{
