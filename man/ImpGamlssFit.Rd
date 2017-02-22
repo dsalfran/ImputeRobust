@@ -4,8 +4,8 @@
 \alias{ImpGamlssFit}
 \title{GAMLSS imputation fit}
 \usage{
-ImpGamlssFit(data, new.data, family, n.ind.par, gd.tol, lin.terms, forceNormal,
-  c.crit, n.cyc, trace, ...)
+ImpGamlssFit(data, new.data, family, n.ind.par, lin.terms, forceNormal,
+  trace = FALSE, ...)
 }
 \arguments{
 \item{data}{Completely observed data frame to be used to fit a
@@ -19,9 +19,18 @@ GAMLSS estimation.}
 
 \item{n.ind.par}{Number of individual parameters to be
 fitted. Currently it only allows one or two because of stability
-issues for more parameters.}
+issues for more parameters.#}
 
-\item{gd.tol}{Global tolerance of the gamlss fitting function.}
+\item{lin.terms}{Character vector specifying which (if any)
+predictor variables should enter the model linearly.}
+
+\item{forceNormal}{Flag that if set to 'TRUE' will use a normal
+family for the gamlss estimation as a last resource.}
+
+\item{trace}{whether to print at each iteration (TRUE) or not (FALSE)}
+
+\item{...}{extra arguments for the control of the gamlss fitting
+function}
 }
 \value{
 Returns a method to generate random samples for the fitted

@@ -21,15 +21,12 @@
 #' @param EV Logical value to determine whether to correct or not
 #'   extreme imputed values. This can arise due to too much
 #'   flexibility of the gamlss model.
-#' @param gd.tol Global deviance tolerance level of GAMLSS.
 #' @param lin.terms Character vector specifying which (if any)
 #'   predictor variables should enter the model linearly.
 #' @param forceNormal Flag that if set to 'TRUE' will use a normal
 #'   family for the gamlss estimation as a last resource.
-#' @param c.crit Convergence criterion for the GAMLSS fitting step.
-#' @param n.cyc Maximum number of cycles in the GAMLSS algorithm.
-#' @param trace Flag to print at each gamlss iteration (TRUE) or not
-#'   (FALSE).
+#' @param ... extra arguments for the control of the gamlss fitting
+#'   function
 #'
 #' @return Numeric vector with imputed values for missing \code{y}
 #'   values
@@ -88,11 +85,12 @@ mice.impute.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
 
   if (is.null(fitted.gam)) fitted.gam <- do.call(fit.gamlss, as.list(Call)[-1])
 
-  imputed.values <- fitted.gam()
+  ## imputed.values <- do.call(fitted.gam, as.list(Call)[-1])
+  imputed.values <- fitted.gam(...)
   # Repeat the bootstrap step if there is a problem with the fitting
   # of gamlss
   if (sum(is.na(imputed.values)) == length(imputed.values)) {
-    imputed.values <- fitted.gam()
+    imputed.values <- fitted.gam(...)
   }
 
   if (EV) {
@@ -172,16 +170,12 @@ mice.impute.gamlssZIP <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
 #' @describeIn mice.impute.gamlss fit.gamlss
 #' @export
 fit.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
-                       gd.tol = Inf, lin.terms = NULL,
-                       forceNormal = FALSE, c.crit = 0.001,
-                       n.cyc = 20, trace = FALSE, ...) {
+                       lin.terms = NULL, forceNormal = FALSE, ...) {
 
   data <- data.frame(y, x)
 
   fit <- partial(ImpGamlssFit, family = family, n.ind.par = n.ind.par,
-                 gd.tol = gd.tol, lin.terms = lin.terms,
-                 forceNormal = forceNormal, c.crit = c.crit,
-                 n.cyc = n.cyc, trace = trace)
+                 lin.terms = lin.terms, forceNormal = forceNormal)
 
   imp.method <- partial(ImpGamlssBootstrap, fit = fit, R = ry)
   f <- imp.method(incomplete.data = data, ...)

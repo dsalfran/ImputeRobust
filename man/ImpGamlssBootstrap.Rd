@@ -12,6 +12,9 @@ ImpGamlssBootstrap(incomplete.data, fit, R, ...)
 \item{fit}{Random sample generator method.}
 
 \item{R}{Boolean matrix with the response indicator.}
+
+\item{...}{extra arguments for the control of the gamlss fitting
+function}
 }
 \value{
 Returns a imputation sample generator.

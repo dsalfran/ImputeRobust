@@ -16,12 +16,18 @@
 #' @param n.ind.par Number of individual parameters to be
 #'   fitted. Currently it only allows one or two because of stability
 #'   issues for more parameters.
-#' @param gd.tol Global tolerance of the gamlss fitting function.
+#' @param lin.terms Character vector specifying which (if any)
+#'   predictor variables should enter the model linearly.
+#' @param forceNormal Flag that if set to 'TRUE' will use a normal
+#'   family for the gamlss estimation as a last resource.
+#' @param trace whether to print at each iteration (TRUE) or not (FALSE)
+#' @param ... extra arguments for the control of the gamlss fitting
+#'   function
 #'
 #' @return Returns a method to generate random samples for the fitted
 #'   gamlss model using "new.data" as covariates.
-ImpGamlssFit <- function(data, new.data, family, n.ind.par, gd.tol, lin.terms,
-                         forceNormal, c.crit, n.cyc, trace, ...) {
+ImpGamlssFit <- function(data, new.data, family, n.ind.par, lin.terms,
+                         forceNormal, trace = FALSE, ...) {
 
   # Family last will be the distribution family of the last fitted
   # gamlss model if forceNormal is TRUE, a normal distribution is
@@ -59,9 +65,8 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, gd.tol, lin.terms,
              tau.formula = tau.f1,
              family = family,
              data = data,
-             control = gamlss.control(trace = trace, c.crit = c.crit,
-                                      gd.tol = gd.tol, n.cyc = n.cyc,
-                                      ...)),
+             control = gamlss.control(trace = trace , ...),
+             i.control = glim.control(...)),
       error = function(e) {
         tryCatch(
         {
@@ -71,10 +76,8 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, gd.tol, lin.terms,
                  tau.formula = tau.f0,
                  family = family,
                  data = data,
-                 control = gamlss.control(trace = trace,
-                                          c.crit = c.crit,
-                                          gd.tol = gd.tol,
-                                          n.cyc = n.cyc, ...))
+                 control = gamlss.control(trace = trace , ...),
+                 i.control = glim.control(...))
         },
         error = function(e) {
           gamlss(formula = mu.lin,
@@ -83,10 +86,8 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, gd.tol, lin.terms,
                  tau.formula = tau.lin,
                  family = family.last,
                  data = data,
-                 control = gamlss.control(trace = trace,
-                                          c.crit = c.crit,
-                                          gd.tol = gd.tol,
-                                          n.cyc = n.cyc, ...))
+                 control = gamlss.control(trace = trace , ...),
+                 i.control = glim.control(...))
         }
         )
       }

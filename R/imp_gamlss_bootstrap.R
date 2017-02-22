@@ -7,6 +7,8 @@
 #' @param incomplete.data Data frame with missings on one variable.
 #' @param R Boolean matrix with the response indicator.
 #' @param fit Random sample generator method.
+#' @param ... extra arguments for the control of the gamlss fitting
+#'   function
 #'
 #' @return Returns a imputation sample generator.
 ImpGamlssBootstrap <- function(incomplete.data, fit, R, ...) {
@@ -23,7 +25,7 @@ ImpGamlssBootstrap <- function(incomplete.data, fit, R, ...) {
       repeat {
         ## Replace observed part of the available cases with a
         ## random sample of the same distribution
-        bootstrap.sample[,1] <- master.predict()
+        bootstrap.sample[,1] <- master.predict(...)
         ## Create random sample generator with
         ## bootstrap.sample as completely observed set and the
         ## observed part of the variables with missings as

@@ -27,9 +27,8 @@ mice.impute.gamlssZIBI(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
 
 mice.impute.gamlssZIP(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
 
-fit.gamlss(y, ry, x, family = NO, n.ind.par = 2, gd.tol = Inf,
-  lin.terms = NULL, forceNormal = FALSE, c.crit = 0.001, n.cyc = 20,
-  trace = FALSE, ...)
+fit.gamlss(y, ry, x, family = NO, n.ind.par = 2, lin.terms = NULL,
+  forceNormal = FALSE, ...)
 }
 \arguments{
 \item{y}{Numeric vector with incomplete data.}
@@ -56,20 +55,14 @@ mice function.}
 extreme imputed values. This can arise due to too much
 flexibility of the gamlss model.}
 
-\item{gd.tol}{Global deviance tolerance level of GAMLSS.}
+\item{...}{extra arguments for the control of the gamlss fitting
+function}
 
 \item{lin.terms}{Character vector specifying which (if any)
 predictor variables should enter the model linearly.}
 
 \item{forceNormal}{Flag that if set to 'TRUE' will use a normal
 family for the gamlss estimation as a last resource.}
-
-\item{c.crit}{Convergence criterion for the GAMLSS fitting step.}
-
-\item{n.cyc}{Maximum number of cycles in the GAMLSS algorithm.}
-
-\item{trace}{Flag to print at each gamlss iteration (TRUE) or not
-(FALSE).}
 }
 \value{
 Numeric vector with imputed values for missing \code{y}
