@@ -19,7 +19,7 @@ GAMLSS estimation.}
 
 \item{n.ind.par}{Number of individual parameters to be
 fitted. Currently it only allows one or two because of stability
-issues for more parameters.#}
+issues for more parameters.}
 
 \item{lin.terms}{Character vector specifying which (if any)
 predictor variables should enter the model linearly.}

@@ -63,20 +63,32 @@
 #'
 #' @examples
 #'
-#' \donttest{
 #' require(lattice)
 #' # Create the imputed data sets
-#' imputed.sets <- mice(sample.data,
-#'                      method = c("gamlss", "gamlss",
+#'
+#' predMat <- matrix(rep(0,25), ncol = 5)
+#' predMat[4,1] <- 1
+#' predMat[4,5] <- 1
+#' predMat[2,1] <- 1
+#' predMat[2,5] <- 1
+#' predMat[2,4] <- 1
+#' predMat[3,1] <- 1
+#' predMat[3,5] <- 1
+#' predMat[3,4] <- 1
+#' predMat[3,2] <- 1
+#' imputed.sets <- mice(sample.data, m = 2,
+#'                      method = c("gamlss", "gamlssPO",
 #'                                 "gamlss", "gamlssBI", "gamlss"),
 #'                      visitSequence = "monotone",
-#'                      maxit = 1, seed = 97123)
+#'                      predictorMatrix = predMat,
+#'                      maxit = 1, seed = 97123,
+#'                      n.cyc = 1, bf.cyc = 1,
+#'                      cyc = 1)
 #'
 #' fit <- with(imputed.sets, lm(y ~ X.1 + X.2 + X.3 + X.4))
 #' summary(pool(fit))
 #'
 #' stripplot(imputed.sets)
-#' }
 #'
 #' @export
 mice.impute.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,

@@ -1,9 +1,12 @@
 Package: ImputeRobust
+Type: Package
 Title: Robust Multiple Imputation with Generalized Addtive Models for Location Scale and Shape
 Version: 1.1-0
-Authors@R: c(person("Daniel", "Salfran", email = "danielsalfran@gmail.com", role = c("aut", "cph", "cre")),
-             person("Martin", "Spiess", email = "martin.spiess@uni-hamburg.de", role = c("aut", "cph", "ths")))
-Description: Provides an extension to the MICE package with an extra method based on GAMLSS.
+Date: 2017-02-23
+Authors@R: c(person("Daniel", "Salfran", email = "daniel.salfran@uni-hamburg.de", role = c("aut", "cre")),
+             person("Martin", "Spiess", email = "martin.spiess@uni-hamburg.de", role = c("aut", "ths")))
+Description: Provides new imputation methods for the MICE package based on generalized additive models for location, scale, and shape (GAMLSS) as described in de Jong, van Buuren and Spiess <doi:10.1080/03610918.2014.911894>.
+Maintainer: Daniel Salfran <daniel.salfran@uni-hamburg.de>
 Depends:
     gamlss,
     mice,
