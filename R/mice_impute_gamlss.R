@@ -21,10 +21,6 @@
 #' @param EV Logical value to determine whether to correct or not
 #'   extreme imputed values. This can arise due to too much
 #'   flexibility of the gamlss model.
-#' @param lin.terms Character vector specifying which (if any)
-#'   predictor variables should enter the model linearly.
-#' @param forceNormal Flag that if set to 'TRUE' will use a normal
-#'   family for the gamlss estimation as a last resource.
 #' @param ... extra arguments for the control of the gamlss fitting
 #'   function
 #'
@@ -181,13 +177,11 @@ mice.impute.gamlssZIP <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
 
 #' @describeIn mice.impute.gamlss fit.gamlss
 #' @export
-fit.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
-                       lin.terms = NULL, forceNormal = FALSE, ...) {
+fit.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2, ...) {
 
   data <- data.frame(y, x)
 
-  fit <- partial(ImpGamlssFit, family = family, n.ind.par = n.ind.par,
-                 lin.terms = lin.terms, forceNormal = forceNormal)
+  fit <- partial(ImpGamlssFit, family = family, n.ind.par = n.ind.par)
 
   imp.method <- partial(ImpGamlssBootstrap, fit = fit, R = ry)
   f <- imp.method(incomplete.data = data, ...)

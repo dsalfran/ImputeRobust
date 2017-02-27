@@ -26,8 +26,8 @@
 #'
 #' @return Returns a method to generate random samples for the fitted
 #'   gamlss model using "new.data" as covariates.
-ImpGamlssFit <- function(data, new.data, family, n.ind.par, lin.terms,
-                         forceNormal, trace = FALSE, ...) {
+ImpGamlssFit <- function(data, new.data, family, n.ind.par, lin.terms = NULL,
+                         forceNormal = FALSE, trace = FALSE, ...) {
 
   # Family last will be the distribution family of the last fitted
   # gamlss model if forceNormal is TRUE, a normal distribution is

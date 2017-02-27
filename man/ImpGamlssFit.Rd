@@ -4,8 +4,8 @@
 \alias{ImpGamlssFit}
 \title{GAMLSS imputation fit}
 \usage{
-ImpGamlssFit(data, new.data, family, n.ind.par, lin.terms, forceNormal,
-  trace = FALSE, ...)
+ImpGamlssFit(data, new.data, family, n.ind.par, lin.terms = NULL,
+  forceNormal = FALSE, trace = FALSE, ...)
 }
 \arguments{
 \item{data}{Completely observed data frame to be used to fit a

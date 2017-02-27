@@ -27,8 +27,7 @@ mice.impute.gamlssZIBI(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
 
 mice.impute.gamlssZIP(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
 
-fit.gamlss(y, ry, x, family = NO, n.ind.par = 2, lin.terms = NULL,
-  forceNormal = FALSE, ...)
+fit.gamlss(y, ry, x, family = NO, n.ind.par = 2, ...)
 }
 \arguments{
 \item{y}{Numeric vector with incomplete data.}
@@ -57,12 +56,6 @@ flexibility of the gamlss model.}
 
 \item{...}{extra arguments for the control of the gamlss fitting
 function}
-
-\item{lin.terms}{Character vector specifying which (if any)
-predictor variables should enter the model linearly.}
-
-\item{forceNormal}{Flag that if set to 'TRUE' will use a normal
-family for the gamlss estimation as a last resource.}
 }
 \value{
 Numeric vector with imputed values for missing \code{y}
