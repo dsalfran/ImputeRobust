@@ -3,7 +3,7 @@
 #' @description
 #' This function takes uses a data set to fit a gamlss model and
 #' another to predict the expected parameters values. It returns a
-#' function that will generate a vector of ramdom observations for the
+#' function that will generate a vector of random observations for the
 #' predicted parameters. The amount of random obervations is the
 #' number of units on the dataset used to get such predictions.
 #'
