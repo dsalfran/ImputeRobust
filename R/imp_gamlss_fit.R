@@ -96,7 +96,7 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, lin.terms = NULL,
     # Predict the parameters values for the units with missings
     capture.output(predictions <- predictAll(fit, new.data, type="response",
                                              data = data),
-                   file = "/dev/null")
+                   file = NULL)
 
     # Return wrapper that will call the generation function
     # corresponding to the distribution family of the gamlss
