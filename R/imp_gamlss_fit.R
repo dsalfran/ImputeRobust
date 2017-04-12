@@ -1,10 +1,10 @@
 #' GAMLSS imputation fit
 #'
 #' @description
-#' This function takes uses a data set to fit a gamlss model and
+#' This function takes a data set to fit a gamlss model and
 #' another to predict the expected parameters values. It returns a
 #' function that will generate a vector of random observations for the
-#' predicted parameters. The amount of random obervations is the
+#' predicted parameters. The amount of random observations is the
 #' number of units on the dataset used to get such predictions.
 #'
 #' @param data Completely observed data frame to be used to fit a
