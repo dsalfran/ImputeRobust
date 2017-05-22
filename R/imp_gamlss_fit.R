@@ -78,6 +78,7 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, lin.terms = NULL,
                  data = data,
                  control = gamlss.control(trace = trace , ...),
                  i.control = glim.control(...))
+          cat("Plan B\n")
         },
         error = function(e) {
           gamlss(formula = mu.lin,
@@ -88,6 +89,7 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, lin.terms = NULL,
                  data = data,
                  control = gamlss.control(trace = trace , ...),
                  i.control = glim.control(...))
+          cat("Plan C\n")
         }
         )
       }
