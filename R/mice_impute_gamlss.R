@@ -103,7 +103,7 @@ mice.impute.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
 
   if (EV) {
     if (!(sum(is.na(imputed.values)) == length(imputed.values))) {
-      outliers <- getOutliers(imputed.values, rho = c(.3, .3), FLim = c(0.08, 0.92))
+      outliers <- getOutliers(imputed.values, rho = c(.3, .3), FLim = c(0.15, 0.85))
       nans <- which(is.nan(imputed.values))
       idx <- c(outliers$iLeft, outliers$iRight, nans)
       if (length(idx) != 0) {
