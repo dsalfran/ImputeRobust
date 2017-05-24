@@ -29,6 +29,19 @@ ModelCreator <- function(data, type, par = NULL, lin.terms = NULL){
     factors <- factors[!v]
   }
 
+  if (type == "response") {
+    response <- factors[length(factors)]
+    formula <- as.formula(paste(dependent, "~", response))
+    return(formula)
+  }
+
+  if (type == "p-response") {
+    response <- factors[length(factors)]
+    formula <- as.formula(paste(dependent, "~",
+                                paste("pb(", response, ")")))
+    return(formula)
+  }
+
   if (type == "linear" && is.null(lin.terms)) {
     # Define a linear model
     formula <- as.formula(paste(paste(dependent, " ~ ", sep = ""),
