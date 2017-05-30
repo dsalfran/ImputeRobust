@@ -37,15 +37,15 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, lin.terms = NULL,
 
   # Really ugly way of specifying the formulas for the gamlss fitting
   # function
-  mu.f1 <- ModelCreator(data, "pb", par = list(degree = 3, order = 3),
-                        lin.terms = lin.terms)
-  mu.f0 <- ModelCreator(data, "pb", par = list(degree = 1, order = 1),
+  mu.f1 <- ModelCreator(data, "pb", lin.terms = lin.terms)
+  mu.f0 <- ModelCreator(data, "pb", par = list(degree = 3, order = 1),
                         lin.terms = lin.terms)
   mu.lin <- ModelCreator(data, "linear")
-  mu.f00 <- ModelCreator(data, "pb", par = list(degree = 0, order = 0),
+  mu.f00 <- ModelCreator(data, "pb", par = list(degree = 2, order = 1),
                          lin.terms = lin.terms)
-  mu.planE <- ModelCreator(data, "p-response")
-  mu.planF <- ModelCreator(data, "response")
+  mu.planE <- ModelCreator(data, "pb", par = list(degree = 3, order = 0),
+                           lin.terms = lin.terms)
+  ## mu.planF <- ModelCreator(data, "response")
 
   ## f1 <- ModelCreator(data, "pb", bin = bin)
   ## f2 <- ModelCreator(data, "pb", par = list(degree = 1, order = 1), bin = bin)
@@ -66,21 +66,21 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, lin.terms = NULL,
   sigma.lin <- switch(n.ind.par, ~1, mu.lin, mu.lin, mu.lin)
   sigma.f00 <- switch(n.ind.par, ~1, mu.f00, mu.f00, mu.f00)
   sigma.planE <- switch(n.ind.par, ~1, mu.planE, mu.planE, mu.planE)
-  sigma.planF <- switch(n.ind.par, ~1, mu.planF, mu.planF, mu.planF)
+  ## sigma.planF <- switch(n.ind.par, ~1, mu.planF, mu.planF, mu.planF)
 
   nu.f1 <- switch(n.ind.par, ~1, ~1, mu.f1, mu.f1)
   nu.f0 <- switch(n.ind.par, ~1, ~1, mu.f0, mu.f0)
   nu.lin <- switch(n.ind.par, ~1, ~1, mu.lin, mu.lin)
   nu.f00 <- switch(n.ind.par, ~1, ~1, mu.f00, mu.f00)
   nu.planE <- switch(n.ind.par, ~1, ~1, mu.planE, mu.planE)
-  nu.planF <- switch(n.ind.par, ~1, ~1, mu.planF, mu.planF)
+  ## nu.planF <- switch(n.ind.par, ~1, ~1, mu.planF, mu.planF)
 
   tau.f1 <- switch(n.ind.par, ~1, ~1, ~1, mu.f1)
   tau.f0 <- switch(n.ind.par, ~1, ~1, ~1, mu.f0)
   tau.lin <- switch(n.ind.par, ~1, ~1, ~1, mu.lin)
   tau.f00 <- switch(n.ind.par, ~1, ~1, ~1, mu.f00)
   tau.planE <- switch(n.ind.par, ~1, ~1, ~1, mu.planE)
-  tau.planF <- switch(n.ind.par, ~1, ~1, ~1, mu.planF)
+  ## tau.planF <- switch(n.ind.par, ~1, ~1, ~1, mu.planF)
 
   tryCatch(
   {
@@ -99,19 +99,22 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, lin.terms = NULL,
       error = function(e) {
         tryCatch(
         {
-          gamlss(formula = mu.f0,
-                 sigma.formula = sigma.f0,
-                 nu.formula = nu.f0,
-                 tau.formula = tau.f0,
-                 family = family,
-                 data = data,
-                 control = gamlss.control(trace = trace , ...),
-                 i.control = glim.control(...),
-                 method = RS(3))
-          cat("PlanB\n")
+          {
+            gamlss(formula = mu.f0,
+                   sigma.formula = sigma.f0,
+                   nu.formula = nu.f0,
+                   tau.formula = tau.f0,
+                   family = family,
+                   data = data,
+                   control = gamlss.control(trace = trace , ...),
+                   i.control = glim.control(...),
+                   method = RS(3))
+            cat("PlanB\n")
+          }
         },
         error = function(e) {
           tryCatch(
+          {
             gamlss(formula = mu.f00,
                    sigma.formula = sigma.f00,
                    nu.formula = nu.f00,
@@ -121,36 +124,33 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, lin.terms = NULL,
                    control = gamlss.control(trace = trace , ...),
                    i.control = glim.control(...),
                    method = RS(3))
-            cat("PlanC\n"),
-            error = function(e) {
+            cat("PlanC\n")
+          },
+          error = function(e) {
+            tryCatch(
+            {
+              gamlss(formula = mu.planE,
+                     sigma.formula = sigma.planE,
+                     nu.formula = nu.planE,
+                     tau.formula = tau.planE,
+                     family = family.last,
+                     data = data,
+                     control = gamlss.control(trace = trace , ...),
+                     i.control = glim.control(...),
+                     method = RS(3))
+              cat("PlanD\n")
+            },
+            error = function(e){
               gamlss(formula = mu.lin,
                      family = family.last,
                      data = data,
                      control = gamlss.control(trace = trace , ...),
                      i.control = glim.control(...),
                      method = RS(3))
-              cat("PlanD\n"),
-              error = function(e){
-                tryCatch(
-                  gamlss(formula = mu.planE,
-                         family = family.last,
-                         data = data,
-                         control = gamlss.control(trace = trace , ...),
-                         i.control = glim.control(...),
-                         method = RS(3))
-                  cat("PlanE\n"),
-                  error = function(e) {
-                    gamlss(formula = mu.planF,
-                           family = family.last,
-                           data = data,
-                           control = gamlss.control(trace = trace , ...),
-                           i.control = glim.control(...),
-                           method = RS(3))
-                    cat("PlanF\n")
-                  }
-                )
-              }
+              cat("PlanE\n")
             }
+            )
+          }
           )
         }
         )

@@ -70,24 +70,35 @@ ModelCreator <- function(data, type, par = NULL, lin.terms = NULL){
     }
   } else if (type == "pb") {
     # Define a P-spline model
-    if (is.null(par)) {
-      control = "control = pb.control(degree = 3, order = 1)"
-    } else {
+    if (!is.null(par)) {
       control = paste("control = pb.control(degree = ", par$degree,
                       ", order = ", par$order, ")", sep = "")
-    }
-    if (is.null(lin.terms)) {
-      formula <- as.formula(paste(
-        paste(dependent, " ~ ", sep = ""),
-        paste("pb(", factors, " ,", control, ")", sep = "",
-              collapse = "+")))
+      if (is.null(lin.terms)) {
+        formula <- as.formula(paste(
+          paste(dependent, " ~ ", sep = ""),
+          paste("pb(", factors, " ,", control, ")", sep = "",
+                collapse = "+")))
+      } else {
+        formula <- as.formula(paste(
+          paste(dependent, " ~ ", sep = ""),
+          paste("pb(", factors, " ,", control, ")", sep = "",
+                collapse = "+"), "+", paste(lin.terms, collapse = "+")))
+      }
     } else {
-      formula <- as.formula(paste(
-        paste(dependent, " ~ ", sep = ""),
-        paste("pb(", factors, " ,", control, ")", sep = "",
-              collapse = "+"), "+", paste(lin.terms, collapse = "+")))
+      if (is.null(lin.terms)) {
+        formula <- as.formula(paste(
+          paste(dependent, " ~ ", sep = ""),
+          paste("pb(", factors, ")", sep = "",
+                collapse = "+")))
+      } else {
+        formula <- as.formula(paste(
+          paste(dependent, " ~ ", sep = ""),
+          paste("pb(", factors, ")", sep = "",
+                collapse = "+"), "+", paste(lin.terms, collapse = "+")))
+      }
     }
-  } else {
+  }
+  else {
     stop("Wrong choice of model")
   }
 
