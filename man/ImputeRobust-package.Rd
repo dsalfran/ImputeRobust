@@ -18,11 +18,6 @@ standard parametric imputation models of not only the location
 shape (e.g., skewness and kurtosis) of the conditional distribution
 of the dependent variable given all other variables.
 }
-\author{
-Daniel Salfran \email{daniel.salfran@uni-hamburg.de}
-
-Martin Spiess \email{martin.spiess@uni-hamburg.de}
-}
 \references{
 de Jong, R., van Buuren, S. & Spiess, M. (2016)
   Multiple Imputation of Predictor Variables Using Generalized
@@ -37,4 +32,8 @@ Rigby, R. A., and Stasinopoulos,
   Shape. Journal of the Royal Statistical Society: Series C
   (Applied Statistics) 54 (3): 507–54.
 }
+\author{
+Daniel Salfran \email{daniel.salfran@uni-hamburg.de}
 
+Martin Spiess \email{martin.spiess@uni-hamburg.de}
+}

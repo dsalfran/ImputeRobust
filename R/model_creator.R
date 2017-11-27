@@ -7,18 +7,22 @@
 #'   independent.
 #'
 #' @param data Data frame that will provide the named variables.
-#' @param type Type of model. Available choices are c("linear", "cs",
-#'   "pb")
-#' @param par Optional list parameter if the model is not linear
+#' @param gam.model List of mode parameter, containing the "type" with
+#'   c("linear", "cs", "pb") as available choices and "par", an
+#'   optional list parameter if the model is not linear.
 #' @param lin.terms Specify which predictors should be included
 #'   linearly. For example, binary variables can be added directly as
 #'   an additive term instead of defining a spline.
 #'
 #' @return Returns a formula object.
-ModelCreator <- function(data, type, par = NULL, lin.terms = NULL){
+ModelCreator <- function(data, gam.model, lin.terms = NULL){
   if (class(data) != "data.frame") {
     stop("'data' must be a data frame")
   }
+
+  type <- gam.model$type
+  par <- gam.model$par
+  
   dependent <- names(data)[1]
   factors <- names(data)[-1]
 
@@ -53,7 +57,7 @@ ModelCreator <- function(data, type, par = NULL, lin.terms = NULL){
   } else if (type == "cs") {
     # Define a cubic spline model
     if (is.null(par)) {
-      df = 3
+      df = 1
     } else {
       df = par
     }
@@ -70,35 +74,24 @@ ModelCreator <- function(data, type, par = NULL, lin.terms = NULL){
     }
   } else if (type == "pb") {
     # Define a P-spline model
-    if (!is.null(par)) {
+    if (is.null(par)) {
+      control = "control = pb.control(degree = 2, order = 2)"
+    } else {
       control = paste("control = pb.control(degree = ", par$degree,
                       ", order = ", par$order, ")", sep = "")
-      if (is.null(lin.terms)) {
-        formula <- as.formula(paste(
-          paste(dependent, " ~ ", sep = ""),
-          paste("pb(", factors, " ,", control, ")", sep = "",
-                collapse = "+")))
-      } else {
-        formula <- as.formula(paste(
-          paste(dependent, " ~ ", sep = ""),
-          paste("pb(", factors, " ,", control, ")", sep = "",
-                collapse = "+"), "+", paste(lin.terms, collapse = "+")))
-      }
-    } else {
-      if (is.null(lin.terms)) {
-        formula <- as.formula(paste(
-          paste(dependent, " ~ ", sep = ""),
-          paste("pb(", factors, ")", sep = "",
-                collapse = "+")))
-      } else {
-        formula <- as.formula(paste(
-          paste(dependent, " ~ ", sep = ""),
-          paste("pb(", factors, ")", sep = "",
-                collapse = "+"), "+", paste(lin.terms, collapse = "+")))
-      }
     }
-  }
-  else {
+    if (is.null(lin.terms)) {
+      formula <- as.formula(paste(
+        paste(dependent, " ~ ", sep = ""),
+        paste("pb(", factors, " ,", control, ")", sep = "",
+              collapse = "+")))
+    } else {
+      formula <- as.formula(paste(
+        paste(dependent, " ~ ", sep = ""),
+        paste("pb(", factors, " ,", control, ")", sep = "",
+              collapse = "+"), "+", paste(lin.terms, collapse = "+")))
+    }
+  } else {
     stop("Wrong choice of model")
   }
 

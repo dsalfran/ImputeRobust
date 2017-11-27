@@ -31,4 +31,3 @@ head(sample.data)
 
 }
 \keyword{datasets}
-

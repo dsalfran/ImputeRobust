@@ -24,4 +24,3 @@ Creates a random generation function for the missing
   values with bootstrap sample from the fitted GAMLSS model for the
   completely observed data.
 }
-

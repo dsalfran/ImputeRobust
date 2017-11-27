@@ -4,7 +4,9 @@
 \alias{ImpGamlssFit}
 \title{GAMLSS imputation fit}
 \usage{
-ImpGamlssFit(data, new.data, family, n.ind.par, lin.terms = NULL,
+ImpGamlssFit(data, new.data, family, n.ind.par, gam.mod, mod.planb = list(type
+  = "pb", par = list(degree = 1, order = 1)), n.par.planb = n.ind.par,
+  lin.terms = NULL, n.cyc = 5, bf.cyc = 5, cyc = 5,
   forceNormal = FALSE, trace = FALSE, ...)
 }
 \arguments{
@@ -21,13 +23,29 @@ GAMLSS estimation.}
 fitted. Currently it only allows one or two because of stability
 issues for more parameters.}
 
+\item{gam.mod}{list with the parameters of the GAMLSS imputation
+model.}
+
+\item{mod.planb}{list with the parameters of the alternative GAMLSS
+imputation model.}
+
+\item{n.par.planb}{number of individual parameters in the
+alternative model.}
+
 \item{lin.terms}{Character vector specifying which (if any)
 predictor variables should enter the model linearly.}
+
+\item{n.cyc}{number of cycles of the gamlss algorithm}
+
+\item{bf.cyc}{number of cycles in the backfitting algorithm}
+
+\item{cyc}{number of cycles of the fitting algorithm}
 
 \item{forceNormal}{Flag that if set to 'TRUE' will use a normal
 family for the gamlss estimation as a last resource.}
 
-\item{trace}{whether to print at each iteration (TRUE) or not (FALSE)}
+\item{trace}{whether to print at each iteration (TRUE) or not
+(FALSE)}
 
 \item{...}{extra arguments for the control of the gamlss fitting
 function}

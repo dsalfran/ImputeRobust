@@ -1,6 +1,6 @@
 #' Multiple Imputation with Generalized Additive Models for Location,
-#' Scale, and Shape
-#'
+#' Scale, and Shape.
+#' 
 #' @description Imputes univariate missing data using a generalized
 #'   model for location, scale and shape.
 #'
@@ -14,6 +14,8 @@
 #'   corresponding "gamlssFAMILY" method.
 #' @param n.ind.par Number of parameters from the distribution family
 #'   to be individually estimated.
+#' @param gam.mod list with the parameters of the GAMLSS imputation
+#'   model.
 #' @param fitted.gam A predefined bootstrap gamlss method returned by
 #'   \code{fit.gamlss}. Mice by default refits the model with each
 #'   imputation. The parameter is here for a future faster modified
@@ -33,9 +35,7 @@
 #'   generated and used to refit the model and generate imputations.
 #'
 #'   The function \code{fit.gamlss} handles the fitting and the
-#'   bootstrap and returns a method to generated imputations. The
-#'   function \code{mice.impute.gamlssBI} sets the distribution family
-#'   to a binary distribution.
+#'   bootstrap and returns a method to generated imputations.
 #'
 #'   Being gamlss a flexible non parametric method, there may be
 #'   problems with the fitting and imputation depending on the sample
@@ -73,11 +73,11 @@
 #' predMat[3,4] <- 1
 #' predMat[3,2] <- 1
 #' imputed.sets <- mice(sample.data, m = 2,
-#'                      method = c("gamlss", "gamlssPO",
-#'                                 "gamlss", "gamlssBI", "gamlss"),
+#'                      method = c("", "gamlssPO",
+#'                                 "gamlss", "gamlssBI", ""),
 #'                      visitSequence = "monotone",
 #'                      predictorMatrix = predMat,
-#'                      maxit = 1, seed = 97123,
+#'                      maxit = 1, seed = 973,
 #'                      n.cyc = 1, bf.cyc = 1,
 #'                      cyc = 1)
 #'
@@ -88,7 +88,8 @@
 #'
 #' @export
 mice.impute.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
-                               fitted.gam = NULL, EV = TRUE, ...) {
+                               fitted.gam = NULL, gam.mod = list(type = "pb"),
+                               EV = TRUE, ...) {
   Call <- match.call(expand.dots = TRUE)
 
   if (is.null(fitted.gam)) fitted.gam <- do.call(fit.gamlss, as.list(Call)[-1])
@@ -97,7 +98,13 @@ mice.impute.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
   imputed.values <- fitted.gam(...)
   # Repeat the bootstrap step if there is a problem with the fitting
   # of gamlss
-  if (sum(is.na(imputed.values)) == length(imputed.values)) {
+  if (sum(is.na(imputed.values)) > 0) {
+    imputed.values <- fitted.gam(...)
+  }
+  if (sum(is.na(imputed.values)) > 0) {
+    imputed.values <- fitted.gam(...)
+  }
+  if (sum(is.na(imputed.values)) > 0) {
     imputed.values <- fitted.gam(...)
   }
 
@@ -111,7 +118,7 @@ mice.impute.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
         y[!ry] <- imputed.values
         R = ry
         ry <- !is.na(y)
-        new.values <- mice.impute.pmm(y, ry, x, ...)
+        new.values <- mice.impute.midastouch(y, ry, x, ...)
         imputed.values[idx] <- new.values
       }
     }
@@ -120,7 +127,16 @@ mice.impute.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
   return(imputed.values)
 }
 
-#' @describeIn mice.impute.gamlss mice.impute.gamlssBI
+#' @rdname mice.impute.gamlss
+#' @export
+mice.impute.gamlssNO <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
+  Call <- match.call(expand.dots = TRUE)
+  Call[["family"]] <- NO
+
+  return(do.call(mice.impute.gamlss, as.list(Call)[-1]))
+}
+
+#' @rdname mice.impute.gamlss
 #' @export
 mice.impute.gamlssBI <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   Call <- match.call(expand.dots = TRUE)
@@ -130,7 +146,7 @@ mice.impute.gamlssBI <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   return(do.call(mice.impute.gamlss, as.list(Call)[-1]))
 }
 
-#' @describeIn mice.impute.gamlss mice.impute.gamlssJSU
+#' @rdname mice.impute.gamlss
 #' @export
 mice.impute.gamlssJSU <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   Call <- match.call(expand.dots = TRUE)
@@ -139,7 +155,7 @@ mice.impute.gamlssJSU <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   return(do.call(mice.impute.gamlss, as.list(Call)[-1]))
 }
 
-#' @describeIn mice.impute.gamlss mice.impute.gamlssPO
+#' @rdname mice.impute.gamlss
 #' @export
 mice.impute.gamlssPO <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   Call <- match.call(expand.dots = TRUE)
@@ -148,7 +164,7 @@ mice.impute.gamlssPO <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   return(do.call(mice.impute.gamlss, as.list(Call)[-1]))
 }
 
-#' @describeIn mice.impute.gamlss mice.impute.gamlssTF
+#' @rdname mice.impute.gamlss
 #' @export
 mice.impute.gamlssTF <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   Call <- match.call(expand.dots = TRUE)
@@ -157,7 +173,16 @@ mice.impute.gamlssTF <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   return(do.call(mice.impute.gamlss, as.list(Call)[-1]))
 }
 
-#' @describeIn mice.impute.gamlss mice.impute.gamlssZIBI
+#' @rdname mice.impute.gamlss
+#' @export
+mice.impute.gamlssGA <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
+  Call <- match.call(expand.dots = TRUE)
+  Call[["family"]] <- GA
+
+  return(do.call(mice.impute.gamlss, as.list(Call)[-1]))
+}
+
+#' @rdname mice.impute.gamlss
 #' @export
 mice.impute.gamlssZIBI <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   Call <- match.call(expand.dots = TRUE)
@@ -166,7 +191,7 @@ mice.impute.gamlssZIBI <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) 
   return(do.call(mice.impute.gamlss, as.list(Call)[-1]))
 }
 
-#' @describeIn mice.impute.gamlss mice.impute.gamlssZIP
+#' @rdname mice.impute.gamlss
 #' @export
 mice.impute.gamlssZIP <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   Call <- match.call(expand.dots = TRUE)
@@ -175,13 +200,15 @@ mice.impute.gamlssZIP <- function(y, ry, x, fitted.gam = NULL, EV = TRUE, ...) {
   return(do.call(mice.impute.gamlss, as.list(Call)[-1]))
 }
 
-#' @describeIn mice.impute.gamlss fit.gamlss
+#' @rdname mice.impute.gamlss
 #' @export
-fit.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2, ...) {
+fit.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
+                       gam.mod = list(type = "pb"), ...) {
 
   data <- data.frame(y, x)
 
-  fit <- partial(ImpGamlssFit, family = family, n.ind.par = n.ind.par)
+  fit <- partial(ImpGamlssFit, family = family, n.ind.par = n.ind.par,
+                 gam.mod = gam.mod)
 
   imp.method <- partial(ImpGamlssBootstrap, fit = fit, R = ry)
   f <- imp.method(incomplete.data = data, ...)

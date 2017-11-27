@@ -1,3 +1,9 @@
+ImputeRobust v1.2 (Release date: 2017-08-18)
+==============
+
+* Is is possible for the user to modify the imputation models
+* Increased stability of the internal fitting algorithms
+
 ImputeRobust v1.1-2 (Release date: 2017-04-20)
 ==============
 

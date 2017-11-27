@@ -4,15 +4,14 @@
 \alias{ModelCreator}
 \title{Model creator}
 \usage{
-ModelCreator(data, type, par = NULL, lin.terms = NULL)
+ModelCreator(data, gam.model, lin.terms = NULL)
 }
 \arguments{
 \item{data}{Data frame that will provide the named variables.}
 
-\item{type}{Type of model. Available choices are c("linear", "cs",
-"pb")}
-
-\item{par}{Optional list parameter if the model is not linear}
+\item{gam.model}{List of mode parameter, containing the "type" with
+c("linear", "cs", "pb") as available choices and "par", an
+optional list parameter if the model is not linear.}
 
 \item{lin.terms}{Specify which predictors should be included
 linearly. For example, binary variables can be added directly as
@@ -28,4 +27,3 @@ This is a helper function to be used within the gamlss
   the one in the first column and the rest are treated as
   independent.
 }
-
