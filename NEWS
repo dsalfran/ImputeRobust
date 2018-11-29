@@ -1,3 +1,13 @@
+ImputeRobust v1.3-1 (Release date: 2018-11-25)
+==============
+
+* Disables logs.
+
+ImputeRobust v1.3 (Release date: 2018-06-21)
+==============
+
+* Fixed mismatch of indexes in 'mice.impute.gamlss'.
+
 ImputeRobust v1.2 (Release date: 2017-08-18)
 ==============
 
