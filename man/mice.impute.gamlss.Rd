@@ -33,8 +33,8 @@ mice.impute.gamlssZIBI(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
 
 mice.impute.gamlssZIP(y, ry, x, fitted.gam = NULL, EV = TRUE, ...)
 
-fit.gamlss(y, ry, x, family = NO, n.ind.par = 2, gam.mod = list(type =
-  "pb"), ...)
+fit.gamlss(y, ry, x, family = NO, n.ind.par = 2, gam.mod = list(type
+  = "pb"), ...)
 }
 \arguments{
 \item{y}{Numeric vector with incomplete data.}
