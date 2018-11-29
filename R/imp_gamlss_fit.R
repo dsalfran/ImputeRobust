@@ -57,10 +57,15 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, gam.mod,
   tau.planb <- switch(n.par.planb, ~1, ~1, ~1, mu.planb)
   if (forceNormal) {family.planb <- NO} else {family.planb <- family}
 
+  # Disable warnings from GAMLSS, the imputing algorithm is shown to work
+  # even in the GAMLSS fitting algorithm doesn't converge
+  oldw <- getOption("warn")
+
   tryCatch({
     # Fit gamlss model with given formula for all four moments
     # (ignored if not needed) and the given distribution family
     fit <- tryCatch(
+      {options(warn = -1)
       gamlss(formula = mu.f1,
              sigma.formula = sigma.f1,
              nu.formula = nu.f1,
@@ -68,10 +73,11 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, gam.mod,
              family = family,
              data = data,
              control = gamlss.control(n.cyc = n.cyc, trace = trace, ...),
-             i.control = glim.control(bf.cyc = bf.cyc, cyc = cyc, ...)),
+             i.control = glim.control(bf.cyc = bf.cyc, cyc = cyc, ...))},
       error = function(e) {
         tryCatch(
           ## cat("PlanB\n")
+          {options(warn = -1)
           gamlss(formula = mu.f1,
                  sigma.formula = sigma.f1,
                  nu.formula = nu.f1,
@@ -79,10 +85,11 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, gam.mod,
                  family = family,
                  data = data,
                  control = gamlss.control(n.cyc = min(3, n.cyc), trace = trace , ...),
-                 i.control = glim.control(bf.cyc = min(4, bf.cyc), cyc = min(3, cyc), ...)),
+                 i.control = glim.control(bf.cyc = min(4, bf.cyc), cyc = min(3, cyc), ...))},
           error = function(e) {
             tryCatch(
               ## cat("PlanC\n")
+              {options(warn = -1)
               gamlss(formula = mu.f1,
                      sigma.formula = sigma.f1,
                      nu.formula = nu.f1,
@@ -90,9 +97,10 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, gam.mod,
                      family = family,
                      data = data,
                      control = gamlss.control(n.cyc = min(3, n.cyc), trace = trace , ...),
-                     i.control = glim.control(bf.cyc = min(3, bf.cyc), cyc = min(2, cyc), ...)),
+                     i.control = glim.control(bf.cyc = min(3, bf.cyc), cyc = min(2, cyc), ...))},
               error = function(e) {
                 ## cat("PlanD\n")
+                options(warn = -1);
                 gamlss(formula = mu.planb,
                        sigma.formula = sigma.planb,
                        nu.formula = nu.planb,
@@ -107,6 +115,8 @@ ImpGamlssFit <- function(data, new.data, family, n.ind.par, gam.mod,
         )
       }
     )
+
+    options(warn = oldw)
 
     # Predict the parameters values for the units with missings
     capture.output(predictions <- predictAll(fit, new.data, type="response",

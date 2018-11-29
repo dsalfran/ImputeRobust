@@ -114,11 +114,10 @@ mice.impute.gamlss <- function(y, ry, x, family = NO, n.ind.par = 2,
       nans <- which(is.nan(imputed.values))
       idx <- c(outliers$iLeft, outliers$iRight, nans)
       if (length(idx) != 0) {
-        imputed.values[idx] <- NA
         y[!ry] <- imputed.values
-        R = ry
-        ry <- !is.na(y)
-        new.values <- mice.impute.midastouch(y, ry, x, ...)
+        R = !is.na(y)
+        R[!ry][idx] = FALSE
+        new.values <- mice.impute.midastouch(y=y, ry=R, x=x)
         imputed.values[idx] <- new.values
       }
     }
